@@ -2,7 +2,7 @@
  * Cache only this app's assets. NEVER cache live ETAs: an old prediction must
  * not appear live after losing connectivity. No third-party CDN dependencies.
  */
-const VERSION='nextstop-material-v9';
+const VERSION='nextstop-material-v10';
 const SHELL=['./','./index.html','./app.js','./styles.css','./manifest.json','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png','./data/KMB.json','./data/CTB.json','./data/LR.json','./data/fares.json','./data/GMB.json'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('nextstop-')&&k!==VERSION)await caches.delete(k);await self.clients.claim();})()));
