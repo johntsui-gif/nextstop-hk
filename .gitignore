@@ -1,4 +1,6 @@
 node_modules/
+.npm-cache/
+.qa/
 .data-cache/
 __pycache__/
 *.zip

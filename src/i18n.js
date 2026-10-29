@@ -50,6 +50,43 @@ const traditional={
 'No address found. Try a building name or a street number.':'找不到地址，請嘗試輸入大廈名稱或街道門牌號碼。','Address service unavailable. Check your connection and try again.':'地址搜尋服務暫時無法使用，請檢查網絡後再試。','Choose the correct address':'請選擇正確地址','Search':'搜尋','Plan a journey':'規劃行程','· destination selected':'· 已選擇目的地','ETA unavailable':'暫無到站預報','Scheduled':'預定班次','Service delay':'服務延誤',
 'North-up diagram of nearby stops; straight-line distances, not a street map':'上方為北的附近車站直線距離示意圖，並非街道地圖','Transport filter':'交通方式篩選','incomplete route patterns excluded from destination matching':'條資料不完整的路線已從目的地配對中排除'
 };
+Object.assign(traditional,{
+ 'Arrival reminder':'到站提醒','Time to alight':'請準備下車','Alert distance':'提醒距離','Alert distance:':'提醒距離：',
+ 'Reminders use straight-line distance, not a count of stops. Choose your alert distance before setting a reminder.':'提醒按直線距離觸發，並非計算車站數目。設定提醒前請選擇提醒距離。',
+ 'Keep screen on during a reminder':'提醒期間保持螢幕開啟','Enable sound & test alert':'開啟聲音並測試提醒','Enable phone notifications':'開啟手機通知',
+ 'Sound enabled for this session. Test again after reopening.':'此使用階段已開啟聲音。重新開啟後請再次測試。',
+ 'Sound could not play. Tap test again and check your volume.':'無法播放聲音。請再次測試並檢查音量。',
+ 'Sound is off. Tap the test button to enable it.':'聲音已關閉。請按測試按鈕開啟。',
+ 'Keep media volume audible. iPhone and iPad browsers do not provide vibration.':'請確保媒體音量足夠。iPhone 及 iPad 瀏覽器不支援震動。',
+ 'Phone notifications enabled for this session.':'此使用階段已開啟手機通知。',
+ 'Phone notification unavailable. Check permissions and reopen the app online.':'無法顯示手機通知。請檢查權限，連線後重新開啟應用程式。',
+ 'Phone notifications are unavailable here. On iPhone or iPad, install to the Home Screen and open from its icon.':'此處不支援手機通知。iPhone 或 iPad 請先加至主畫面，再從圖示開啟。',
+ 'Phone notifications are optional; the on-screen alert always remains available.':'手機通知為可選功能；仍會顯示程式內提醒。',
+ 'Notifications can be sent only when this open app detects your arrival. They do not enable tracking while locked or in the background.':'只有應用程式開啟並偵測到你接近車站時才能發出通知；鎖定螢幕或背景時無法追蹤位置。',
+ 'Android: allow precise location for Chrome and this site. iPhone / iPad: allow location for Safari or the installed app and enable Precise Location.':'Android：請允許 Chrome 及此網站使用精確位置。iPhone／iPad：請允許 Safari 或已安裝的應用程式使用位置，並開啟「精確位置」。',
+ 'Saved reminder — resume your trip':'已儲存提醒，請繼續行程','Waiting for location…':'正在等待位置…',
+ 'Location is old. Refresh location to continue.':'位置資料已過時。請重新定位以繼續。',
+ 'Location is not precise enough. Allow precise location or try near a window.':'位置不夠準確。請允許精確位置，或靠近窗戶再試。',
+ 'Paused while the app is hidden.':'應用程式隱藏時暫停提醒。',
+ 'This stop has no GPS coordinates. Arrival reminders are unavailable.':'此車站沒有 GPS 座標，無法提供到站提醒。',
+ 'Already near this stop. Leave the reminder area, then return to trigger the alert.':'你已在此車站附近。離開提醒範圍後再次接近，才會觸發提醒。',
+ 'Watching your distance to the stop.':'正在監測你與車站的距離。','Loading your saved destination…':'正在載入已儲存的目的地…',
+ 'The saved route or stop has changed. Cancel and select your destination again.':'已儲存的路線或車站已更改。請取消並重新選擇目的地。',
+ 'This reminder expired after four hours. Set a new reminder for your next trip.':'此提醒已於四小時後到期。下次行程請重新設定提醒。',
+ 'Screen is being kept on.':'正在保持螢幕開啟。',
+ 'Screen-awake support is unavailable. Keep your screen on manually.':'此裝置不支援自動保持螢幕開啟。請手動保持螢幕開啟。',
+ 'Screen may turn off. Keep it on manually or retry.':'螢幕可能關閉。請手動保持開啟或重試。',
+ 'Keep this app visible and your screen unlocked.':'請保持此應用程式開啟及螢幕解鎖。',
+ 'Locking the phone or switching apps pauses location reminders.':'鎖定手機或切換應用程式會暫停位置提醒。',
+ 'Could not save this reminder. Keep this session open.':'無法儲存此提醒。請保持目前使用階段開啟。',
+ 'Resume reminder':'繼續提醒','Test alert':'測試提醒','Retry keeping screen on':'重試保持螢幕開啟','Dismiss alert':'關閉提醒','Cancel reminder':'取消提醒',
+ 'Sound is off. Use Test alert to enable it for this session.':'聲音已關閉。請按「測試提醒」在此使用階段開啟聲音。',
+ 'A fresh, precise location is needed. Refresh location and try again.':'需要最新的精確位置。請重新定位後再試。',
+ 'Select a valid destination stop.':'請選擇有效的目的地車站。','Select a reminder distance.':'請選擇提醒距離。',
+ 'Location permission is off. Enable location for this app or browser and this site.':'定位權限已關閉。請允許此應用程式或瀏覽器及網站使用位置。',
+ 'Location unavailable. Try near a window or outdoors.':'無法定位。請靠近窗戶或到室外再試。',
+ 'Location timed out. Refresh location to try again.':'定位逾時。請重新定位再試。'
+});
 const cache=new Map();
 export function tr(text,locale='en'){
  if(locale==='en'||typeof text!=='string')return text;
