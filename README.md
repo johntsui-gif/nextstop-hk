@@ -2,6 +2,32 @@
 
 A self-contained React + vanilla JavaScript app with compiled Tailwind CSS. No advertising, analytics, third-party runtime CDN, API keys, accounts or backend required on an ordinary static host.
 
+## Arrival reminders on Android and iOS
+
+Open a route in the correct direction, expand a downstream stop and tap **Alert me near this stop**. A fresh location with reported accuracy of 100 m or better is required. Light Rail reminders are disabled because that directory has no coordinates.
+
+- In Settings → Arrival reminders, choose a **300 m, 500 m or 1 km** straight-line alert distance before arming. The default is 500 m. This replaces the old two-stop progression requirement: missed fixes at intermediate stops no longer block the alert. Distance alone cannot distinguish a route that passes near its destination earlier in the journey.
+- Keep NextStop visible and the screen unlocked. While a reminder is active, the app requests a screen wake lock where supported, releases it on cancellation/arrival, and requests it again after returning to the app. The status panel reports if the request fails or the OS releases it. Keeping the screen on uses more battery.
+- Tap **Enable sound & test alert** in Settings, or **Test alert** on the active reminder. The user tap enables a short three-tone sound for this session; keep media volume audible. Test again after reopening or if the browser suspends audio. Android also attempts vibration; iOS browsers do not provide web vibration. Sound/vibration remain subject to browser and device settings.
+- **Enable phone notifications** is optional. The app requests permission only after this tap and uses its service worker to display a notification when foreground location detection fires. On iPhone/iPad, use a Home Screen installation on iOS/iPadOS 16.4 or later. Notifications do **not** enable background location tracking, and there is no push server or subscription.
+- The panel shows location failures, stale fixes (over 30 seconds), poor accuracy and destination distance. Returning to the foreground restarts location watching with no cached fix. Arrival remains visible until dismissed; it fires only once per reminder.
+- A reminder survives a reload using only route/stop references and trip state in local storage; GPS coordinates are never stored. After reopening, tap **Resume reminder** and test sound again. Reminders expire after four hours. Changed route/stop references require selecting the destination again.
+- If a reminder is armed while already inside its chosen radius, it waits until the phone leaves the radius by at least 150 m before a return can trigger it. This avoids immediate alarms at shared boarding/alighting coordinates on circular routes. The panel explains this waiting state; choose a shorter radius if appropriate.
+
+### Locked-screen alerts need native location support
+
+This remains a foreground web reminder. Installing a PWA, enabling notifications, background sync or adding a push server does not give a service worker a continuous GPS stream. The browser's geolocation API waits for a visible document. A notification can appear on the lock screen after delivery, but a web app cannot reliably detect the user's arrival there while hidden.
+
+For background alighting reminders, the next phase is an Android/iOS app that can reuse this interface (for example in a native wrapper) and implement native location monitoring plus local notifications. For continuous trip tracking, Android needs a location foreground service and its visible ongoing notification, with the required location/notification permissions. iOS needs Core Location background support and the appropriate authorization/background mode. A wrapper alone is insufficient; test lifecycle, permission denial, OS termination, low-power modes and real journeys on both platforms before promising background delivery.
+
+References: [Geolocation visibility requirement](https://www.w3.org/TR/geolocation/#request-a-position), [Screen Wake Lock](https://www.w3.org/TR/screen-wake-lock/), [WebKit Home Screen notifications](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/), [Android location foreground services](https://developer.android.com/develop/background-work/services/fgs/service-types#location), [Apple background location](https://developer.apple.com/documentation/corelocation/handling-location-updates-in-the-background).
+
+### Reminder validation
+
+`npm test` includes missed intermediate fixes, distance settings, stale/inaccurate/hidden fixes, circular departure gating, expiry, saved-state validation and duplicate-alert prevention. Browser verification can simulate GPS and wake locks, but cannot establish actual sound, haptics, installation, GPS reception or OS power behavior on a phone.
+
+Before release, test Pixel/Chrome and iPhone/Safari plus both Home Screen installations: allow/deny precise location, arm a distant stop, enable/test sound, approach it, dismiss, cancel and verify screen-awake release; switch apps and return; reload and resume; try poor/no GPS, offline reopen and a circular route. Check supported/denied wake locks, notification permission denial, system volume/Focus modes, and a service-worker update with an older app window still open. Locked/background detection is explicitly unsupported.
+
 ## Run immediately
 
 The `dist/` directory is the complete, ready-to-host application. Serve it rather than opening `index.html` with `file://`:

@@ -2,7 +2,7 @@
  * Cache only this app's assets. NEVER cache live ETAs: an old prediction must
  * not appear live after losing connectivity. No third-party CDN dependencies.
  */
-const VERSION='nextstop-material-v10';
+const VERSION='nextstop-mobile-reminders-v11';
 const SHELL=['./','./index.html','./app.js','./styles.css','./manifest.json','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png','./data/KMB.json','./data/CTB.json','./data/LR.json','./data/fares.json','./data/GMB.json'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('nextstop-')&&k!==VERSION)await caches.delete(k);await self.clients.claim();})()));
@@ -20,5 +20,19 @@ self.addEventListener('fetch',event=>{
   if(old&&event.request.mode!=='navigate'&&!relative.startsWith('./data/'))return old;
   try{const r=await fetch(event.request);if(r.ok&&r.type==='basic'&&!r.redirected)await cache.put(event.request,r.clone());return r;}
   catch{if(old)return old;if(event.request.mode==='navigate')return (await cache.match('./index.html'))||Response.error();return Response.error();}
+ })());
+});
+
+// Notifications originate from foreground arrival detection, not background GPS.
+self.addEventListener('notificationclick',event=>{
+ event.notification.close();
+ event.waitUntil((async()=>{
+  const home=new URL('./',self.location.href);
+  for(const client of await self.clients.matchAll({type:'window',includeUncontrolled:true})){
+   if(new URL(client.url).origin===home.origin&&new URL(client.url).pathname.startsWith(home.pathname)){
+    await client.focus();return;
+   }
+  }
+  await self.clients.openWindow(home.href);
  })());
 });
